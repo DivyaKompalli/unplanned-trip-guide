@@ -1,7 +1,7 @@
 <!-- src/components/Footer.vue -->
 <template>
   <footer>
-    <p>&copy; 2023 Unplanned Trip Guide. All rights reserved.</p>
+    <p>&copy; 2025 Unplanned Trip Guide. All rights reserved.</p>
   </footer>
 </template>
 
