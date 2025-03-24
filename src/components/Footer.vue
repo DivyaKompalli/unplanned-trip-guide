@@ -13,7 +13,7 @@ export default {
 
 <style scoped>
 footer {
-  padding: 20px 0;
-  margin-top: 40px;
+  padding: 10px 0;
+  margin-top: 10px;
 }
 </style>
