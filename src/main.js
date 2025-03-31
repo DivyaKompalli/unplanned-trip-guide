@@ -1,5 +1,6 @@
-import { createApp } from 'vue'
-import './style.css'
-import App from './App.vue'
+// src/main.js
+import { createApp } from "vue";
+import App from "./App.vue";
 
-createApp(App).mount('#app')
+const app = createApp(App);
+app.mount("#app"); // Ensure this matches your index.html

@@ -1,61 +1,109 @@
-<!-- src/components/Header.vue -->
 <template>
-  <header>
-    <h1>Unplanned Trip Guide</h1>
-    <nav>
-      <ul>
-        <li><a href="#home">Home</a></li>
-        <li><a href="#destinations">Destinations</a></li>
-        <li><a href="#trip-generator">Trip Generator</a></li>
-        <li><a href="#blog">Blog</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
+  <header class="app-header">
+    <div class="container">
+      <router-link to="/" class="logo">
+        <span>🌍</span> TravelPlanner
+      </router-link>
+      <nav class="nav">
+        <div v-if="user" class="user-info">
+          <span class="user-email">{{ user.email }}</span>
+          <button @click="logout" class="logout-button">Logout</button>
+        </div>
+        <button v-else @click="$emit('show-auth')" class="auth-button">
+          Login
+        </button>
+      </nav>
+    </div>
   </header>
 </template>
 
 <script>
 export default {
-  name: "Header",
+  props: {
+    user: {
+      type: Object,
+      default: null,
+    },
+  },
+  methods: {
+    logout() {
+      this.$emit("logout");
+    },
+  },
 };
 </script>
 
 <style scoped>
-header {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: #fff;
-  padding: 20px 0;
-  text-align: center;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.app-header {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin: 0;
-  font-weight: bold;
-}
-
-nav ul {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0 0;
+.container {
   display: flex;
-  justify-content: center;
-  gap: 20px;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-nav ul li {
-  display: inline;
-}
-
-nav ul li a {
-  color: #fff;
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary);
   text-decoration: none;
-  font-size: 1.1rem;
-  transition: color 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
-nav ul li a:hover {
-  color: #ffdd57;
+.auth-button,
+.logout-button {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.auth-button:hover,
+.logout-button:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-email {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .user-info {
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 0.5rem;
+  }
 }
 </style>
