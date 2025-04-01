@@ -1,109 +1,50 @@
 <template>
   <div class="travel-planner-app">
-    <Header :user="user" @show-auth="handleShowAuth" @logout="handleLogout" />
+    <Header :user="user" @logout="handleLogout" />
     <main class="main-content">
-      <!-- Show Home page by default for unauthenticated users -->
-      <Home
-        v-if="shouldShowHome"
-        @show-auth="handleShowAuth"
-        @select-unplanned="handleUnplannedTrip"
-      />
-
-      <!-- Show auth forms when auth is requested -->
-      <div v-else-if="showAuth">
+      <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
-          <Login
-            v-if="authView === 'login'"
-            @login-success="handleAuthSuccess"
-            @switch-view="switchToSignup"
-            @close="closeAuth"
-          />
-          <Signup
-            v-else
-            @signup-success="handleAuthSuccess"
-            @switch-view="switchToLogin"
-            @close="closeAuth"
-          />
+          <component :is="Component" />
         </transition>
-      </div>
-
-      <!-- Show trip generator for authenticated users -->
-      <TripGenerator v-else-if="user" />
+      </router-view>
     </main>
     <Footer />
   </div>
 </template>
 
 <script>
-import Header from "./components/Header.vue";
-import Home from "./components/Home.vue";
-import TripGenerator from "./components/TripGenerator.vue";
-import Footer from "./components/Footer.vue";
-import Login from "./components/Login.vue";
-import Signup from "./components/Signup.vue";
 import { auth } from "./firebase";
 import { onAuthStateChanged } from "firebase/auth";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
 
 export default {
-  components: {
-    Header,
-    Home,
-    TripGenerator,
-    Footer,
-    Login,
-    Signup,
-  },
+  components: { Header, Footer },
   data() {
     return {
       user: null,
-      authView: "login",
-      showAuth: false,
     };
-  },
-  computed: {
-    shouldShowHome() {
-      return !this.user && !this.showAuth;
-    },
   },
   created() {
     onAuthStateChanged(auth, (user) => {
       this.user = user;
-      if (!user) {
-        this.showAuth = false;
+      if (!user && this.$route.meta.requiresAuth) {
+        this.$router.push("/");
       }
     });
   },
   methods: {
-    handleShowAuth() {
-      this.showAuth = true;
-      this.authView = "login";
-    },
-    closeAuth() {
-      this.showAuth = false;
-    },
-    switchToSignup() {
-      this.authView = "signup";
-    },
-    switchToLogin() {
-      this.authView = "login";
-    },
-    handleAuthSuccess() {
-      this.user = auth.currentUser;
-      this.showAuth = false;
-    },
     handleLogout() {
-      this.user = null;
-      this.authView = "login";
-      this.showAuth = false;
-    },
-    handleUnplannedTrip() {
-      this.handleShowAuth();
+      auth.signOut().then(() => {
+        this.$router.push("/");
+      });
     },
   },
 };
 </script>
 
 <style>
+/* Keep all existing styles exactly the same */
 :root {
   --primary: #6366f1;
   --primary-hover: #4f46e5;

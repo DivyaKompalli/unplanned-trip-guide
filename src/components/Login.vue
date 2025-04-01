@@ -47,7 +47,7 @@
 
       <p class="switch-auth">
         Don't have an account?
-        <a @click="$emit('switch-view')" class="switch-link">Sign up</a>
+        <router-link to="/signup" class="switch-link">Sign up</router-link>
       </p>
     </div>
   </div>
@@ -69,17 +69,19 @@ export default {
     async login() {
       try {
         await signInWithEmailAndPassword(auth, this.email, this.password);
-        this.$emit("login-success");
+        this.$router.push("/home");
       } catch (error) {
         this.error = "Invalid email or password";
+        console.error(error);
       }
     },
     async loginWithGoogle() {
       try {
         await signInWithPopup(auth, googleProvider);
-        this.$emit("login-success");
+        this.$router.push("/home");
       } catch (error) {
         this.error = "Google login failed";
+        console.error(error);
       }
     },
   },

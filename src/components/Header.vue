@@ -1,7 +1,7 @@
 <template>
   <header class="app-header">
     <div class="container">
-      <router-link to="/" class="logo">
+      <router-link to="/home" class="logo">
         <span>🌍</span> TravelPlanner
       </router-link>
       <nav class="nav">
@@ -9,9 +9,7 @@
           <span class="user-email">{{ user.email }}</span>
           <button @click="logout" class="logout-button">Logout</button>
         </div>
-        <button v-else @click="$emit('show-auth')" class="auth-button">
-          Login
-        </button>
+        <router-link v-else to="/" class="auth-button"> Login </router-link>
       </nav>
     </div>
   </header>
@@ -32,7 +30,6 @@ export default {
   },
 };
 </script>
-
 <style scoped>
 .app-header {
   background-color: white;
