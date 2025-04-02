@@ -129,7 +129,7 @@ export default {
       this.loading = true;
       try {
         await createUserWithEmailAndPassword(auth, this.email, this.password);
-        this.$emit("signup-success");
+        this.$router.push("/home"); // Navigate to home after successful signup
       } catch (error) {
         this.error = this.getErrorMessage(error.code);
       } finally {
@@ -139,7 +139,7 @@ export default {
     async signupWithGoogle() {
       try {
         await signInWithPopup(auth, googleProvider);
-        this.$emit("signup-success");
+        this.$router.push("/home"); // Navigate to home after successful Google signup
       } catch (error) {
         this.error = this.getErrorMessage(error.code);
       }
