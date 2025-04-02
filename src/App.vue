@@ -44,19 +44,21 @@ export default {
 </script>
 
 <style>
-/* Keep all existing styles exactly the same */
 :root {
-  --primary: #6366f1;
-  --primary-hover: #4f46e5;
-  --accent: #ec4899;
-  --text-main: #2d3748;
-  --text-secondary: #4a5568;
-  --text-muted: #718096;
-  --border-color: #e2e8f0;
-  --bg-color: #f8fafc;
+  --primary: #ff9933; /* Saffron */
+  --primary-hover: #ff8c00;
+  --secondary: #138808; /* Green */
+  --accent: #ff6347;
+  --text-main: #333333;
+  --text-secondary: #555555;
+  --text-muted: #777777;
+  --border-color: #e0e0e0;
+  --bg-color: #f5f5f5;
   --card-bg: white;
-  --error-bg: #fee2e2;
-  --error-text: #dc2626;
+  --error-bg: #ffebee;
+  --error-text: #d32f2f;
+  --nav-bg: #ffffff;
+  --footer-bg: linear-gradient(135deg, #ff9933, #138808);
 }
 
 * {
@@ -66,11 +68,10 @@ export default {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: "Poppins", "Noto Sans Devanagari", sans-serif;
   background-color: var(--bg-color);
   color: var(--text-main);
   line-height: 1.6;
-  background-image: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
   min-height: 100vh;
 }
 
@@ -89,17 +90,6 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0 2rem;
-}
-
-.user-info {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-.user-email {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
 }
 
 .fade-enter-active,
@@ -122,5 +112,23 @@ body {
   .container {
     padding: 0 1rem;
   }
+}
+
+/* Indian-themed scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-hover);
 }
 </style>

@@ -4,22 +4,22 @@
     <div class="overlay"></div>
 
     <div class="content">
-      <h1 class="title">✈️ TravelPlanner</h1>
-      <p class="subtitle">Where will your next adventure take you?</p>
+      <h1 class="title">🕌 Bharat Yatra</h1>
+      <p class="subtitle">Discover the land of diversity and spirituality</p>
 
       <div class="choice-container">
-        <h2>Plan your perfect trip</h2>
+        <h2>Plan your perfect Indian journey</h2>
         <div class="choice-buttons">
           <router-link to="/planned" class="choice-btn planned">
             <font-awesome-icon icon="calendar-check" />
             <span>Planned Trip</span>
-            <p>I know exactly what I want</p>
+            <p>I know where I want to go</p>
           </router-link>
 
           <router-link to="/trip-generator" class="choice-btn unplanned">
             <font-awesome-icon icon="compass" />
-            <span>Unplanned Trip</span>
-            <p>Surprise me with ideas</p>
+            <span>Discover India</span>
+            <p>Suggest me destinations</p>
           </router-link>
         </div>
       </div>
@@ -32,8 +32,8 @@ export default {
   name: "HomePage",
 };
 </script>
+
 <style scoped>
-/* Keep all existing styles exactly the same */
 .home-container {
   position: relative;
   min-height: 100vh;
@@ -48,7 +48,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url("https://source.unsplash.com/random/1920x1080/?travel,destination");
+  background-image: url("https://source.unsplash.com/random/1920x1080/?india,tajmahal");
   background-size: cover;
   background-position: center;
   z-index: 0;
@@ -79,12 +79,14 @@ export default {
   font-size: 3.5rem;
   margin-bottom: 0.5rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+  font-family: "Poppins", sans-serif;
 }
 
 .subtitle {
   font-size: 1.5rem;
   margin-bottom: 3rem;
   opacity: 0.9;
+  font-style: italic;
 }
 
 .choice-container {
@@ -100,6 +102,7 @@ export default {
 .choice-container h2 {
   font-size: 2rem;
   margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 .choice-buttons {
@@ -123,6 +126,7 @@ export default {
   color: white;
   font-size: 1.2rem;
   font-weight: bold;
+  text-decoration: none;
 }
 
 .choice-btn svg {
@@ -138,11 +142,11 @@ export default {
 }
 
 .choice-btn.planned {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: linear-gradient(135deg, #ff9933, #ff8c00);
 }
 
 .choice-btn.unplanned {
-  background: linear-gradient(135deg, #ec4899, #f59e0b);
+  background: linear-gradient(135deg, #138808, #006400);
 }
 
 .choice-btn:hover {

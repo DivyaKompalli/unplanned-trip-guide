@@ -2,14 +2,18 @@
   <header class="app-header">
     <div class="container">
       <router-link to="/home" class="logo">
-        <span>🌍</span> TravelPlanner
+        <span>🕌</span> Bharat Yatra
       </router-link>
       <nav class="nav">
         <div v-if="user" class="user-info">
           <span class="user-email">{{ user.email }}</span>
-          <button @click="logout" class="logout-button">Logout</button>
+          <button @click="logout" class="logout-button">
+            <font-awesome-icon icon="right-from-bracket" /> Logout
+          </button>
         </div>
-        <router-link v-else to="/" class="auth-button"> Login </router-link>
+        <router-link v-else to="/" class="auth-button">
+          <font-awesome-icon icon="right-to-bracket" /> Login
+        </router-link>
       </nav>
     </div>
   </header>
@@ -30,9 +34,10 @@ export default {
   },
 };
 </script>
+
 <style scoped>
 .app-header {
-  background-color: white;
+  background-color: var(--nav-bg);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   padding: 1rem 0;
   position: sticky;
@@ -57,6 +62,7 @@ export default {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  font-family: "Poppins", sans-serif;
 }
 
 .auth-button,
@@ -69,6 +75,9 @@ export default {
   font-size: 0.9rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .auth-button:hover,

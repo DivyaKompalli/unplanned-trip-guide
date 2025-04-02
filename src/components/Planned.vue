@@ -1,22 +1,21 @@
 <template>
   <div class="planned-trip">
     <div class="trip-container">
-      <!-- Trip Details Section (shown after estimate) -->
       <transition name="fade-slide">
         <div v-if="estimateGenerated" class="trip-details-section">
-          <h1>Your Planned Trip Details</h1>
+          <h1>Your Indian Trip Details</h1>
 
           <div class="budget-summary">
             <h2>
-              Estimated Total Budget: ${{ budgetRanges.total.min }} - ${{
+              Estimated Total Budget: ₹{{ budgetRanges.total.min }} - ₹{{
                 budgetRanges.total.max
               }}
             </h2>
             <div class="budget-breakdown">
               <div class="budget-item">
-                <span class="category">Flights:</span>
+                <span class="category">Flights/Trains:</span>
                 <span class="price-range"
-                  >${{ budgetRanges.flights.min }}-${{
+                  >₹{{ budgetRanges.flights.min }}-₹{{
                     budgetRanges.flights.max
                   }}</span
                 >
@@ -24,7 +23,7 @@
               <div class="budget-item">
                 <span class="category">Accommodation:</span>
                 <span class="price-range"
-                  >${{ budgetRanges.accommodation.min }}-${{
+                  >₹{{ budgetRanges.accommodation.min }}-₹{{
                     budgetRanges.accommodation.max
                   }}</span
                 >
@@ -32,7 +31,7 @@
               <div class="budget-item">
                 <span class="category">Food & Activities:</span>
                 <span class="price-range"
-                  >${{ budgetRanges.foodActivities.min }}-${{
+                  >₹{{ budgetRanges.foodActivities.min }}-₹{{
                     budgetRanges.foodActivities.max
                   }}</span
                 >
@@ -41,7 +40,7 @@
           </div>
 
           <div class="recommended-hotels">
-            <h2>Recommended Hotels</h2>
+            <h2>Recommended Stays</h2>
             <div class="hotel-list">
               <div
                 class="hotel-card"
@@ -51,21 +50,30 @@
                 <div class="hotel-info">
                   <h3>{{ hotel.name }}</h3>
                   <div class="hotel-details">
-                    <span class="price">${{ hotel.price }}/night</span>
+                    <span class="price">₹{{ hotel.price }}/night</span>
                     <button class="book-now">Book Now</button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <div class="travel-tips">
+            <h2>Travel Tips for {{ tripDetails.destination }}</h2>
+            <ul class="tips-list">
+              <li>Best time to visit: {{ travelTips.bestTime }}</li>
+              <li>Local cuisine to try: {{ travelTips.localCuisine }}</li>
+              <li>Must-see attractions: {{ travelTips.attractions }}</li>
+              <li>Transport tips: {{ travelTips.transport }}</li>
+            </ul>
+          </div>
         </div>
       </transition>
 
-      <!-- Trip Planning Form Section -->
       <div class="trip-form-section">
-        <h1>✈️ Plan Your Trip</h1>
+        <h1>🕌 Plan Your Indian Journey</h1>
         <p class="subtitle">
-          Craft your perfect journey with our budget estimator
+          Estimate your budget for exploring incredible India
         </p>
 
         <div class="trip-form-container">
@@ -79,7 +87,7 @@
                 required
                 class="form-input"
               />
-              <label for="destination">Destination</label>
+              <label for="destination">Destination (City/State)</label>
               <span class="icon">📍</span>
             </div>
 
@@ -121,7 +129,7 @@
                   :class="{ active: tripDetails.budgetLevel === 'low' }"
                   @click="tripDetails.budgetLevel = 'low'"
                 >
-                  <span class="price-indicator">$</span>
+                  <span class="price-indicator">₹</span>
                   <span>Budget</span>
                 </button>
                 <button
@@ -129,7 +137,7 @@
                   :class="{ active: tripDetails.budgetLevel === 'medium' }"
                   @click="tripDetails.budgetLevel = 'medium'"
                 >
-                  <span class="price-indicator">$$</span>
+                  <span class="price-indicator">₹₹</span>
                   <span>Mid-range</span>
                 </button>
                 <button
@@ -137,7 +145,7 @@
                   :class="{ active: tripDetails.budgetLevel === 'high' }"
                   @click="tripDetails.budgetLevel = 'high'"
                 >
-                  <span class="price-indicator">$$$</span>
+                  <span class="price-indicator">₹₹₹</span>
                   <span>Luxury</span>
                 </button>
               </div>
@@ -172,6 +180,12 @@ export default {
         foodActivities: { min: 0, max: 0 },
       },
       recommendedHotels: [],
+      travelTips: {
+        bestTime: "",
+        localCuisine: "",
+        attractions: "",
+        transport: "",
+      },
     };
   },
   methods: {
@@ -188,21 +202,21 @@ export default {
       const travelers = this.tripDetails.travelers;
 
       // Flight calculations
-      const flightBase = 400;
+      const flightBase = 8000;
       this.budgetRanges.flights = {
         min: Math.round(flightBase * factor.base),
         max: Math.round(flightBase * (factor.base + factor.range)),
       };
 
       // Accommodation calculations
-      const accomBase = 100 * duration;
+      const accomBase = 2000 * duration;
       this.budgetRanges.accommodation = {
         min: Math.round(accomBase * factor.base),
         max: Math.round(accomBase * (factor.base + factor.range)),
       };
 
       // Food & Activities calculations
-      const foodBase = 50 * duration * travelers;
+      const foodBase = 1500 * duration * travelers;
       this.budgetRanges.foodActivities = {
         min: Math.round(foodBase * factor.base),
         max: Math.round(foodBase * (factor.base + factor.range)),
@@ -222,27 +236,68 @@ export default {
 
       // Set recommended hotels
       this.setRecommendedHotels();
+
+      // Set travel tips based on destination
+      this.setTravelTips();
+
       this.estimateGenerated = true;
     },
     setRecommendedHotels() {
       if (this.tripDetails.budgetLevel === "low") {
         this.recommendedHotels = [
-          { name: "Urban Loft Apartments", price: 120 },
-          { name: "Budget Inn", price: 80 },
-          { name: "Traveler's Hostel", price: 60 },
+          { name: "OYO Townhouse", price: 1200 },
+          { name: "Treebo Trend", price: 1800 },
+          { name: "Zostel Hostel", price: 800 },
         ];
       } else if (this.tripDetails.budgetLevel === "medium") {
         this.recommendedHotels = [
-          { name: "Grand Plaza Hotel", price: 180 },
-          { name: "Riverside Suites", price: 220 },
-          { name: "City Center Hotel", price: 160 },
+          { name: "Taj Vivanta", price: 4500 },
+          { name: "Radisson Blu", price: 5500 },
+          { name: "Lemon Tree Premier", price: 3800 },
         ];
       } else {
         this.recommendedHotels = [
-          { name: "Seaside Resort", price: 350 },
-          { name: "Luxury Grand Hotel", price: 450 },
-          { name: "Executive Suites", price: 380 },
+          { name: "Taj Palace", price: 12000 },
+          { name: "Oberoi Udaivilas", price: 25000 },
+          { name: "Amanbagh", price: 30000 },
         ];
+      }
+    },
+    setTravelTips() {
+      // This would ideally be more dynamic based on the destination
+      this.travelTips = {
+        bestTime: "October to March (pleasant weather)",
+        localCuisine: "Try local street food and regional specialties",
+        attractions:
+          "Historical sites, local markets, and cultural experiences",
+        transport: "Use app-based cabs or metro where available",
+      };
+
+      if (this.tripDetails.destination.toLowerCase().includes("goa")) {
+        this.travelTips = {
+          bestTime: "November to February",
+          localCuisine: "Fish curry rice, Bebinca, Goan sausages",
+          attractions: "Beaches, Fort Aguada, Old Goa churches",
+          transport: "Rent a scooter or use local taxis",
+        };
+      } else if (
+        this.tripDetails.destination.toLowerCase().includes("rajasthan")
+      ) {
+        this.travelTips = {
+          bestTime: "October to March",
+          localCuisine: "Dal Baati Churma, Laal Maas, Ghewar",
+          attractions: "Jaipur forts, Udaipur lakes, Jaisalmer desert",
+          transport: "Private car with driver recommended",
+        };
+      } else if (
+        this.tripDetails.destination.toLowerCase().includes("kerala")
+      ) {
+        this.travelTips = {
+          bestTime: "September to March",
+          localCuisine: "Appam with stew, Sadya, Karimeen pollichathu",
+          attractions: "Backwaters, tea gardens, Kathakali performances",
+          transport: "Houseboats for backwaters, taxis for hill stations",
+        };
       }
     },
   },
@@ -251,7 +306,7 @@ export default {
 
 <style scoped>
 .planned-trip {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f5f7fa;
   min-height: 100vh;
   padding: 20px;
@@ -277,11 +332,13 @@ export default {
   color: #2c3e50;
   margin-bottom: 20px;
   font-weight: 600;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
 }
 
 .budget-summary h2 {
   font-size: 18px;
-  color: #2c3e50;
+  color: var(--secondary);
   margin-bottom: 15px;
   font-weight: 500;
 }
@@ -291,6 +348,7 @@ export default {
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 25px;
+  border-left: 4px solid var(--primary);
 }
 
 .budget-item {
@@ -310,7 +368,7 @@ export default {
 }
 
 .price-range {
-  color: #2c3e50;
+  color: var(--primary);
   font-weight: 600;
 }
 
@@ -319,6 +377,8 @@ export default {
   color: #2c3e50;
   margin-bottom: 15px;
   font-weight: 500;
+  border-bottom: 2px solid #f0f0f0;
+  padding-bottom: 5px;
 }
 
 .hotel-list {
@@ -331,6 +391,7 @@ export default {
   background-color: #f8f9fa;
   border-radius: 8px;
   padding: 15px;
+  border-left: 3px solid var(--secondary);
 }
 
 .hotel-info h3 {
@@ -348,11 +409,11 @@ export default {
 
 .price {
   font-weight: 600;
-  color: #3498db;
+  color: var(--primary);
 }
 
 .book-now {
-  background-color: #3498db;
+  background-color: var(--primary);
   color: white;
   border: none;
   padding: 8px 15px;
@@ -363,7 +424,41 @@ export default {
 }
 
 .book-now:hover {
-  background-color: #2980b9;
+  background-color: var(--primary-hover);
+}
+
+.travel-tips {
+  margin-top: 30px;
+  background-color: #fff9e6;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid var(--secondary);
+}
+
+.travel-tips h2 {
+  font-size: 18px;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.tips-list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.tips-list li {
+  padding: 8px 0;
+  border-bottom: 1px dashed #ddd;
+  position: relative;
+  padding-left: 25px;
+}
+
+.tips-list li:before {
+  content: "→";
+  color: var(--primary);
+  position: absolute;
+  left: 0;
 }
 
 .trip-form-section {
@@ -424,7 +519,7 @@ export default {
   font-size: 12px;
   background: white;
   padding: 0 5px;
-  color: #3498db;
+  color: var(--primary);
 }
 
 .form-input {
@@ -438,8 +533,8 @@ export default {
 
 .form-input:focus {
   outline: none;
-  border-color: #3498db;
-  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 2px rgba(255, 153, 51, 0.2);
 }
 
 .icon {
@@ -472,9 +567,9 @@ export default {
 }
 
 .budget-options button.active {
-  background: #3498db;
+  background: var(--primary);
   color: white;
-  border-color: #3498db;
+  border-color: var(--primary);
 }
 
 .price-indicator {
@@ -483,7 +578,7 @@ export default {
 }
 
 .generate-button {
-  background-color: #3498db;
+  background-color: var(--primary);
   color: white;
   padding: 15px;
   border: none;
@@ -499,7 +594,7 @@ export default {
 }
 
 .generate-button:hover {
-  background-color: #2980b9;
+  background-color: var(--primary-hover);
 }
 
 .fade-slide-enter-active,

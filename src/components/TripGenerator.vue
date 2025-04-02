@@ -1,8 +1,8 @@
 <template>
-  <div class="trip-generator">
+  <div class="trip-generator indian-pattern">
     <div class="hero-section">
-      <h1>Where to next?</h1>
-      <p>Let us help you plan your perfect getaway</p>
+      <h1>Where in India will you explore next?</h1>
+      <p>Discover the incredible diversity of Indian destinations</p>
     </div>
 
     <div class="preference-form">
@@ -10,15 +10,15 @@
 
       <div class="filter-grid">
         <div class="filter-group">
-          <label for="country">Preferred Country</label>
-          <select id="country" v-model="userPreferences.country">
-            <option value="">Any Country</option>
+          <label for="region">Preferred Region</label>
+          <select id="region" v-model="userPreferences.region">
+            <option value="">Any Region</option>
             <option
-              v-for="country in countries"
-              :value="country.value"
-              :key="country.value"
+              v-for="region in regions"
+              :value="region.value"
+              :key="region.value"
             >
-              {{ country.name }}
+              {{ region.name }}
             </option>
           </select>
         </div>
@@ -27,9 +27,9 @@
           <label for="budget">Budget</label>
           <select id="budget" v-model="userPreferences.budget">
             <option value="">Any Budget</option>
-            <option value="low">Budget ($)</option>
-            <option value="medium">Mid-range ($$)</option>
-            <option value="high">Luxury ($$$)</option>
+            <option value="low">Budget (₹)</option>
+            <option value="medium">Mid-range (₹₹)</option>
+            <option value="high">Luxury (₹₹₹)</option>
           </select>
         </div>
 
@@ -42,6 +42,7 @@
             <option value="city">City</option>
             <option value="countryside">Countryside</option>
             <option value="historical">Historical</option>
+            <option value="spiritual">Spiritual</option>
           </select>
         </div>
 
@@ -67,18 +68,18 @@
       </div>
 
       <button @click="generateTrip" class="generate-button">
-        Generate Trip Ideas
+        Discover Destinations
       </button>
     </div>
 
     <div v-if="trips.length > 0" class="trip-results">
-      <h2>Recommended Trips</h2>
+      <h2>Recommended Indian Destinations</h2>
       <div class="trip-grid">
         <div v-for="(trip, index) in trips" :key="index" class="trip-card">
           <div class="trip-image-container">
             <img :src="trip.image" :alt="trip.name" class="trip-image" />
             <div class="trip-badge">{{ formatBudget(trip.budget) }}</div>
-            <div class="country-badge">{{ trip.country }}</div>
+            <div class="region-badge">{{ trip.region }}</div>
           </div>
           <div class="trip-content">
             <h3>{{ trip.name }}</h3>
@@ -117,52 +118,159 @@ export default {
   data() {
     return {
       userPreferences: {
-        country: "",
+        region: "",
         budget: "",
         type: "",
         climate: "",
         duration: "",
       },
-      countries: [
-        { name: "Italy", value: "italy" },
-        { name: "Japan", value: "japan" },
-        { name: "Thailand", value: "thailand" },
-        { name: "France", value: "france" },
-        { name: "USA", value: "usa" },
-        { name: "India", value: "india" },
-        { name: "Spain", value: "spain" },
-        { name: "Greece", value: "greece" },
+      regions: [
+        { name: "North India", value: "north" },
+        { name: "South India", value: "south" },
+        { name: "East India", value: "east" },
+        { name: "West India", value: "west" },
+        { name: "Central India", value: "central" },
+        { name: "Northeast India", value: "northeast" },
       ],
       trips: [],
       selectedTrip: null,
       destinations: [
         {
-          name: "Rome, Italy",
-          specialty: "Eternal city with ancient ruins and vibrant culture",
+          name: "Jaipur, Rajasthan",
+          specialty: "The Pink City with magnificent forts and palaces",
           type: "historical",
+          climate: "warm",
+          budget: "medium",
+          duration: "medium",
+          region: "North",
+          image: "https://source.unsplash.com/random/800x600/?jaipur",
+          estimatedBudget: "₹15,000-₹25,000",
+          historicalSignificance:
+            "Founded in 1727 by Maharaja Sawai Jai Singh II",
+          famousFor: "Hawa Mahal, Amber Fort, City Palace, Jantar Mantar",
+          mustTry: "Dal Baati Churma, Ghewar, Pyaaz Kachori",
+          nearbyPlaces: ["Ajmer", "Pushkar", "Ranthambore"],
+          hostels: [
+            "Zostel Jaipur",
+            "Moustache Hostel",
+            "The Hosteller Jaipur",
+          ],
+          restaurants: ["Laxmi Misthan Bhandar", "Suvarna Mahal", "1135 AD"],
+        },
+        {
+          name: "Goa",
+          specialty: "Tropical beaches and Portuguese heritage",
+          type: "beach",
+          climate: "warm",
+          budget: "medium",
+          duration: "short",
+          region: "West",
+          image: "https://source.unsplash.com/random/800x600/?goa",
+          estimatedBudget: "₹20,000-₹35,000",
+          historicalSignificance: "Former Portuguese colony for over 450 years",
+          famousFor: "Beaches, nightlife, seafood, churches",
+          mustTry: "Fish curry rice, Bebinca, Feni",
+          nearbyPlaces: ["Gokarna", "Hampi", "Dudhsagar Falls"],
+          hostels: [
+            "The Hosteller Goa",
+            "Roadhouse Hostels",
+            "Goa Backpackers",
+          ],
+          restaurants: [
+            "Pousada by the Beach",
+            "Fisherman's Wharf",
+            "Viva Panjim",
+          ],
+        },
+        {
+          name: "Kerala Backwaters",
+          specialty: "Serene network of lagoons and lakes",
+          type: "countryside",
           climate: "temperate",
           budget: "medium",
           duration: "medium",
-          country: "Italy",
-          image: "https://source.unsplash.com/random/800x600/?rome",
-          estimatedBudget: "$800-$1200",
-          historicalSignificance:
-            "Founded in 753 BC, center of the Roman Empire",
-          famousFor: "Colosseum, Vatican City, Roman Forum, Trevi Fountain",
-          mustTry: "Authentic pasta carbonara, gelato, espresso",
-          nearbyPlaces: ["Florence", "Pompeii", "Amalfi Coast"],
-          hostels: [
-            "The Yellow Hostel",
-            "Alessandro Downtown Hostel",
-            "Generator Rome",
-          ],
+          region: "South",
+          image: "https://source.unsplash.com/random/800x600/?kerala",
+          estimatedBudget: "₹18,000-₹30,000",
+          historicalSignificance: "Ancient trading routes and unique ecosystem",
+          famousFor: "Houseboats, coconut lagoons, Ayurveda",
+          mustTry: "Karimeen pollichathu, Appam with stew, Toddy",
+          nearbyPlaces: ["Kochi", "Munnar", "Varkala"],
+          hostels: ["Zostel Alleppey", "Nomad's Hostel", "Greenpalms Homestay"],
           restaurants: [
-            "Roscioli",
-            "Tonnarello",
-            "La Pergola (Michelin-starred)",
+            "Thaff Delicacy",
+            "Cassia Restaurant",
+            "Grand Hotel Restaurant",
           ],
         },
-        // More destination objects...
+        {
+          name: "Leh-Ladakh",
+          specialty: "High-altitude desert with breathtaking landscapes",
+          type: "mountain",
+          climate: "cold",
+          budget: "high",
+          duration: "long",
+          region: "North",
+          image: "https://source.unsplash.com/random/800x600/?ladakh",
+          estimatedBudget: "₹30,000-₹50,000",
+          historicalSignificance: "Ancient Buddhist kingdom on the Silk Route",
+          famousFor: "Pangong Lake, Nubra Valley, monasteries",
+          mustTry: "Thukpa, Momos, Butter tea",
+          nearbyPlaces: ["Nubra Valley", "Pangong Tso", "Kargil"],
+          hostels: ["The Hosteller Leh", "Zostel Leh", "Pangong Inn"],
+          restaurants: [
+            "Gesmo Restaurant",
+            "Bon Appetit",
+            "Lamayuru Restaurant",
+          ],
+        },
+        {
+          name: "Varanasi, Uttar Pradesh",
+          specialty: "Spiritual capital of India on the Ganges",
+          type: "spiritual",
+          climate: "warm",
+          budget: "low",
+          duration: "short",
+          region: "North",
+          image: "https://source.unsplash.com/random/800x600/?varanasi",
+          estimatedBudget: "₹8,000-₹15,000",
+          historicalSignificance:
+            "One of the world's oldest continually inhabited cities",
+          famousFor: "Ghats, Ganga Aarti, silk sarees",
+          mustTry: "Kachori sabzi, Lassi, Banarasi paan",
+          nearbyPlaces: ["Sarnath", "Allahabad", "Ayodhya"],
+          hostels: [
+            "Stops Hostel Varanasi",
+            "Zostel Varanasi",
+            "Bunked Up Hostel",
+          ],
+          restaurants: [
+            "Brown Bread Bakery",
+            "Deena Chaat Bhandar",
+            "Pizzeria Vaatika Cafe",
+          ],
+        },
+        {
+          name: "Mumbai, Maharashtra",
+          specialty: "Bustling metropolis with colonial heritage",
+          type: "city",
+          climate: "warm",
+          budget: "medium",
+          duration: "short",
+          region: "West",
+          image: "https://source.unsplash.com/random/800x600/?mumbai",
+          estimatedBudget: "₹15,000-₹25,000",
+          historicalSignificance: "Gateway of India with colonial architecture",
+          famousFor: "Marine Drive, Bollywood, street food",
+          mustTry: "Vada pav, Pav bhaji, Bhelpuri",
+          nearbyPlaces: ["Lonavala", "Alibaug", "Matheran"],
+          hostels: [
+            "The Backpacker Panda",
+            "Zostel Mumbai",
+            "Airport Hostel Mumbai",
+          ],
+          restaurants: ["Bademiya", "Britannia & Co.", "The Bombay Canteen"],
+        },
       ],
       savedTrips: [],
     };
@@ -171,9 +279,9 @@ export default {
     generateTrip() {
       this.trips = this.destinations.filter((destination) => {
         return (
-          (!this.userPreferences.country ||
-            destination.country.toLowerCase() ===
-              this.userPreferences.country.toLowerCase()) &&
+          (!this.userPreferences.region ||
+            destination.region.toLowerCase() ===
+              this.userPreferences.region.toLowerCase()) &&
           (!this.userPreferences.budget ||
             destination.budget === this.userPreferences.budget) &&
           (!this.userPreferences.type ||
@@ -191,9 +299,9 @@ export default {
     },
     formatBudget(budget) {
       const budgets = {
-        low: "$ Budget",
-        medium: "$$ Mid-range",
-        high: "$$$ Luxury",
+        low: "₹ Budget",
+        medium: "₹₹ Mid-range",
+        high: "₹₹₹ Luxury",
       };
       return budgets[budget] || budget;
     },
@@ -212,6 +320,7 @@ export default {
         city: "🏙️ City",
         countryside: "🌄 Countryside",
         historical: "🏛️ Historical",
+        spiritual: "🕉️ Spiritual",
       };
       return types[type] || type;
     },
@@ -231,23 +340,24 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
-  background-color: var(--primary);
+  background-color: #a1e294;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
 .preference-form {
-  background-color: #f8fafc;
+  background-color: #f6faf5;
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .hero-section {
   text-align: center;
   margin-bottom: 3rem;
   padding: 4rem 0;
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  background: linear-gradient(135deg, var(--primary), var(--teal));
   color: white;
   border-radius: 16px;
 }
@@ -262,17 +372,10 @@ export default {
   opacity: 0.9;
 }
 
-/* .preference-form {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  margin-bottom: 3rem;
-} */
-
 .preference-form h2 {
   margin-bottom: 1.5rem;
   color: var(--text-main);
+  text-align: center;
 }
 
 .filter-grid {
@@ -310,7 +413,7 @@ export default {
 .filter-group select:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
 }
 
 .generate-button {
@@ -325,12 +428,16 @@ export default {
   transition: all 0.3s ease;
   width: 100%;
   margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 .generate-button:hover {
   background-color: var(--primary-hover);
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.2);
 }
 
 .trip-results {
@@ -355,6 +462,7 @@ export default {
   overflow: hidden;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  position: relative;
 }
 
 .trip-card:hover {
@@ -391,7 +499,7 @@ export default {
   color: var(--text-main);
 }
 
-.country-badge {
+.region-badge {
   position: absolute;
   top: 1rem;
   left: 1rem;

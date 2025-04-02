@@ -1,43 +1,70 @@
 <template>
   <footer class="travelplanner-footer">
     <div class="footer-container">
-      <!-- Header Section -->
       <div class="footer-header">
         <h2 class="footer-title">
-          <span class="logo-icon">✈️</span> TravelPlanner
+          <span class="logo-icon">🕌</span> Bharat Yatra
         </h2>
-        <p class="footer-subtitle">Plan your perfect trip with ease</p>
+        <p class="footer-subtitle">
+          Discover the incredible diversity of India
+        </p>
       </div>
 
-      <!-- Divider -->
       <div class="footer-divider"></div>
 
-      <!-- Quick Links -->
       <div class="footer-section">
         <h3 class="section-title">Quick Links</h3>
         <ul class="links-list">
-          <li><span class="link-icon">🏠</span> Home</li>
-          <li><span class="link-icon">ℹ️</span> About</li>
-          <li><span class="link-icon">✉️</span> Contact</li>
+          <li>
+            <router-link to="/home"
+              ><span class="link-icon">🏠</span> Home</router-link
+            >
+          </li>
+          <li>
+            <a href="#"><span class="link-icon">ℹ️</span> About India</a>
+          </li>
+          <li>
+            <a href="#"><span class="link-icon">✉️</span> Contact Us</a>
+          </li>
         </ul>
       </div>
 
-      <!-- Divider -->
       <div class="footer-divider"></div>
 
-      <!-- Connect Section -->
       <div class="footer-section">
-        <h3 class="section-title">Connect</h3>
+        <h3 class="section-title">Travel Tips</h3>
+        <ul class="links-list">
+          <li>
+            <a href="#"><span class="link-icon">🛂</span> Visa Information</a>
+          </li>
+          <li>
+            <a href="#"><span class="link-icon">🏨</span> Best Seasons</a>
+          </li>
+          <li>
+            <a href="#"><span class="link-icon">🍛</span> Local Cuisine</a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-section">
+        <h3 class="section-title">Connect With Us</h3>
         <div class="social-icons">
-          <span class="social-icon">👍</span>
-          <span class="social-icon">👍</span>
-          <span class="social-icon">💤</span>
+          <a href="#" class="social-icon"
+            ><font-awesome-icon :icon="['fab', 'facebook']"
+          /></a>
+          <a href="#" class="social-icon"
+            ><font-awesome-icon :icon="['fab', 'twitter']"
+          /></a>
+          <a href="#" class="social-icon"
+            ><font-awesome-icon :icon="['fab', 'instagram']"
+          /></a>
         </div>
       </div>
 
-      <!-- Copyright -->
       <div class="footer-copyright">
-        © 2023 TravelPlanner. All rights reserved.
+        © {{ new Date().getFullYear() }} Bharat Yatra. All rights reserved.
       </div>
     </div>
   </footer>
@@ -45,10 +72,10 @@
 
 <style scoped>
 .travelplanner-footer {
-  background: linear-gradient(135deg, #3b82f6, #6366f1);
+  background: var(--footer-bg);
   color: white;
   padding: 2.5rem 1rem;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 .footer-container {
@@ -111,6 +138,20 @@
   gap: 0.5rem;
 }
 
+.links-list a {
+  color: white;
+  text-decoration: none;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.links-list a:hover {
+  color: #ffd700;
+  transform: translateX(5px);
+}
+
 .link-icon {
   font-size: 1.2rem;
 }
@@ -125,10 +166,12 @@
 .social-icon {
   font-size: 1.8rem;
   transition: transform 0.3s;
+  color: white;
 }
 
 .social-icon:hover {
   transform: scale(1.2);
+  color: #ffd700;
 }
 
 .footer-copyright {
